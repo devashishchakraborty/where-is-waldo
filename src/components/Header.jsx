@@ -1,18 +1,32 @@
 import { Link } from "react-router-dom";
-import mainLogo from "../assets/icon.jpeg"
+import Waldo from "../assets/waldo.png";
+import Wizard from "../assets/wizard.png";
+import Odlaw from "../assets/odlaw.png";
 
 const Header = () => {
   return (
-    <header className="border-b-2 text-red-800 p-3 pl-18 pr-18">
-      <nav className="flex gap-4 items-center justify-between">
+    <header className="border-b-2 p-3 pr-10 pl-10 text-red-800">
+      <nav className="flex items-center justify-between gap-4">
         <ul className="flex gap-2">
-          <li><img src={mainLogo} className="w-12 h-12 mix-blend-multiply" alt="" /></li>
-          <li className="flex text-4xl font-bold items-center" ><Link to="/">Where's Waldo</Link></li>
+          <li className="flex items-center text-4xl font-bold">
+            <Link to="/">Where's Waldo</Link>
+          </li>
         </ul>
-        <ul className="flex text-2xl gap-4 font-medium">
-          <li><Link to="/">Home</Link></li>
-          <li><Link to="/leaderboard">Leaderboard</Link></li>
-          <li><Link to="/about">About</Link></li>
+        <ul className="flex gap-6">
+          <li>
+            <img src={Waldo} className="h-16 w-16" alt="" />
+          </li>
+          <li>
+            <img src={Wizard} className="h-16 w-16" alt="" />
+          </li>
+          <li>
+            <img src={Odlaw} className="h-16 w-16" alt="" />
+          </li>
+        </ul>
+        <ul className="flex gap-4 text-2xl font-medium">
+          <li>
+            <Link to="/leaderboard">Leaderboard</Link>
+          </li>
         </ul>
       </nav>
     </header>
