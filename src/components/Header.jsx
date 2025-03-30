@@ -4,7 +4,7 @@ import Wizard from "../assets/wizard.png";
 import Odlaw from "../assets/odlaw.png";
 import { getOpacity } from "../utils";
 
-const Header = ({ charactersLeft }) => {
+const Header = ({ charactersLeft = null }) => {
   return (
     <header className="border-b-2 p-3 pr-10 pl-10 text-red-800">
       <nav className="flex items-center justify-between gap-4">
@@ -14,17 +14,22 @@ const Header = ({ charactersLeft }) => {
           </li>
         </ul>
         <ul className="flex gap-6">
-          <li style={{ opacity: getOpacity(charactersLeft, 1) }}>
+          <li
+            style={charactersLeft && { opacity: getOpacity(charactersLeft, 1) }}
+          >
             <img src={Waldo} className="h-16 w-16" alt="" />
           </li>
-          <li style={{ opacity: getOpacity(charactersLeft, 2) }}>
+          <li style={charactersLeft && { opacity: getOpacity(charactersLeft, 2) }}>
             <img src={Wizard} className="h-16 w-16" alt="" />
           </li>
-          <li style={{ opacity: getOpacity(charactersLeft, 3) }}>
+          <li style={charactersLeft && { opacity: getOpacity(charactersLeft, 3) }}>
             <img src={Odlaw} className="h-16 w-16" alt="" />
           </li>
         </ul>
         <ul className="flex gap-4 text-2xl font-medium">
+          <li>
+            <Link to="/game">Play</Link>
+          </li>
           <li>
             <Link to="/leaderboard">Leaderboard</Link>
           </li>

@@ -3,14 +3,24 @@ import { useEffect, useRef, useState } from "react";
 import { normalizeAxes } from "../utils";
 import checkmark from "../assets/checkmark.svg";
 import UserForm from "../components/UserForm";
+import Header from "../components/Header";
+import Waldo from "../assets/waldo.png";
+import Wizard from "../assets/wizard.png";
+import Odlaw from "../assets/odlaw.png";
 
-const Game = ({ charactersLeft, setCharactersLeft }) => {
+const Game = () => {
   const [clickInfo, setClickInfo] = useState({
     x: 0,
     y: 0,
     height: 0,
     width: 0,
   });
+  const [charactersLeft, setCharactersLeft] = useState([
+    { id: 1, name: "Waldo", image: Waldo },
+    { id: 2, name: "Wizard", image: Wizard },
+    { id: 3, name: "Odlaw", image: Odlaw },
+  ]);
+
   const [checkboxes, setCheckboxes] = useState([]);
   const [score, setScore] = useState(0);
   const [message, setMessage] = useState(null);
@@ -117,60 +127,65 @@ const Game = ({ charactersLeft, setCharactersLeft }) => {
 
   return (
     <>
-      <div className="imageContainer relative">
-        <img
-          className="cursor-crosshair"
-          src={mainImage}
-          alt=""
-          onClick={(e) => (charactersLeft.length > 0 ? handleClick(e) : false)}
-        />
-        {checkboxes.length > 0 &&
-          checkboxes.map((checkbox) => {
-            return (
-              <img
-                key={checkbox.left + checkbox.top}
-                src={checkmark}
-                className={`absolute -translate-1/2 rounded-full border-3 border-green-700 bg-gray-50`}
-                style={{
-                  left: `${parseInt(checkbox.left)}px`,
-                  top: `${parseInt(checkbox.top)}px`,
-                }}
-              />
-            );
-          })}
-        {message && (
-          <div className="fixed top-24 right-4 transform animate-[fadeUp_1s_ease_backwards] rounded-xs bg-white p-4 shadow">
-            <div>{message}</div>
+      <Header charactersLeft={charactersLeft} />
+      <main>
+        <div className="imageContainer relative">
+          <img
+            className="cursor-crosshair"
+            src={mainImage}
+            alt=""
+            onClick={(e) =>
+              charactersLeft.length > 0 ? handleClick(e) : false
+            }
+          />
+          {checkboxes.length > 0 &&
+            checkboxes.map((checkbox) => {
+              return (
+                <img
+                  key={checkbox.left + checkbox.top}
+                  src={checkmark}
+                  className={`absolute -translate-1/2 rounded-full border-3 border-green-700 bg-gray-50`}
+                  style={{
+                    left: `${parseInt(checkbox.left)}px`,
+                    top: `${parseInt(checkbox.top)}px`,
+                  }}
+                />
+              );
+            })}
+          {message && (
+            <div className="fixed top-24 right-4 transform animate-[fadeUp_1s_ease_backwards] rounded-xs bg-white p-4 shadow">
+              <div>{message}</div>
+            </div>
+          )}
+
+          <div
+            ref={targetingBoxRef}
+            className="absolute hidden h-10 w-10 cursor-pointer rounded-full border-2 border-dotted bg-gray-300/50"
+          ></div>
+          <ul
+            ref={dropdownBoxRef}
+            className="absolute hidden w-30 cursor-pointer bg-gray-50 shadow-xl"
+          >
+            {charactersLeft.map((character) => (
+              <li
+                className="flex h-10 items-center p-2 hover:bg-gray-200"
+                key={character.id}
+                onClick={() => handleSubmit(character)}
+              >
+                <img className="h-[100%]" src={character.image} alt="" />{" "}
+                <div className="grow">{character.name}</div>
+              </li>
+            ))}
+          </ul>
+
+          <div className="fixed top-24 left-4 rounded-2xl bg-gray-100 p-2 text-2xl font-bold text-red-800">
+            Timer: {score / 100}s
           </div>
-        )}
-
-        <div
-          ref={targetingBoxRef}
-          className="absolute hidden h-10 w-10 cursor-pointer rounded-full border-2 border-dotted bg-gray-300/50"
-        ></div>
-        <ul
-          ref={dropdownBoxRef}
-          className="absolute hidden w-30 cursor-pointer bg-gray-50 shadow-xl"
-        >
-          {charactersLeft.map((character) => (
-            <li
-              className="flex h-10 items-center p-2 hover:bg-gray-200"
-              key={character.id}
-              onClick={() => handleSubmit(character)}
-            >
-              <img className="h-[100%]" src={character.image} alt="" />{" "}
-              <div className="grow">{character.name}</div>
-            </li>
-          ))}
-        </ul>
-
-        <div className="fixed top-24 left-4 rounded-2xl bg-gray-100 p-2 text-2xl font-bold text-red-800">
-          Timer: {score / 100}s
         </div>
-      </div>
-      {charactersLeft.length == 0 && message == null && (
-        <UserForm score={score} />
-      )}
+        {charactersLeft.length == 0 && message == null && (
+          <UserForm score={score} />
+        )}
+      </main>
     </>
   );
 };
