@@ -12,8 +12,8 @@ const UserForm = ({ score }) => {
     setIsSubmitting(true);
 
     try {
-      // const baseUrl = import.meta.env.VITE_API_BASE_URL;
-      const response = await fetch(`http://localhost:3000/api/users`, {
+      const baseUrl = import.meta.env.VITE_API_BASE_URL;
+      const response = await fetch(`${baseUrl}/api/users`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
