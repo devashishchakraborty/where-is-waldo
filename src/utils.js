@@ -6,4 +6,9 @@ const normalizeAxes = (clickInfo) => {
   return { x: clickInfo.x * normFactor, y: clickInfo.y * normFactor };
 };
 
-export { normalizeAxes };
+const getOpacity = (charactersLeft, characterId) => {
+  const characters = charactersLeft.filter((character) => character.id == characterId);
+  return characters.length > 0 ? "1" : "0.5";
+}
+
+export { normalizeAxes, getOpacity };

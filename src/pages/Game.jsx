@@ -1,12 +1,10 @@
 import mainImage from "../assets/main-image.jpg";
 import { useEffect, useRef, useState } from "react";
-import Waldo from "../assets/waldo.png";
-import Wizard from "../assets/wizard.png";
-import Odlaw from "../assets/odlaw.png";
 import { normalizeAxes } from "../utils";
 import checkmark from "../assets/checkmark.svg";
+import UserForm from "../components/UserForm";
 
-const Game = () => {
+const Game = ({ charactersLeft, setCharactersLeft }) => {
   const [clickInfo, setClickInfo] = useState({
     x: 0,
     y: 0,
@@ -14,16 +12,24 @@ const Game = () => {
     width: 0,
   });
   const [checkboxes, setCheckboxes] = useState([]);
+  const [score, setScore] = useState(0);
+  const [message, setMessage] = useState(null);
   const targetingBoxRef = useRef(null);
   const dropdownBoxRef = useRef(null);
-  const [message, setMessage] = useState(null);
 
-  const [charactersLeft, setCharactersLeft] = useState([
-    { id: 1, name: "Waldo", image: Waldo },
-    { id: 2, name: "Wizard", image: Wizard },
-    { id: 3, name: "Odlaw", image: Odlaw },
-  ]);
+  // For increasing the timer/score
+  useEffect(() => {
+    let interval;
+    if (charactersLeft.length > 0) {
+      interval = setInterval(() => {
+        setScore((prev) => prev + 1);
+      }, 10);
+    }
 
+    return () => clearInterval(interval);
+  }, [charactersLeft]);
+
+  // Small message box appearing at top right.
   useEffect(() => {
     if (!message) return;
 
@@ -39,18 +45,15 @@ const Game = () => {
     dropdownBoxRef.current.style.display = "none";
 
     try {
+      const { x, y } = normalizeAxes(clickInfo);
       // const baseUrl = import.meta.env.VITE_API_BASE_URL;
       const response = await fetch(
-        `http://localhost:3000/api/check-character`,
+        `http://localhost:3000/api/characters/${character.id}?x=${x}&y=${y}`,
         {
-          method: "POST",
+          method: "GET",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({
-            characterId: character.id,
-            ...normalizeAxes(clickInfo),
-          }),
         },
       );
 
@@ -60,17 +63,16 @@ const Game = () => {
 
       const data = await response.json();
       if (data.success) {
-        setMessage(`Great! You Found ${character.name}`);
         setCheckboxes((prev) => [
           ...prev,
           { left: clickInfo.x, top: clickInfo.y },
         ]);
+
         setCharactersLeft((prev) => {
           return prev.filter((prevChar) => character.id != prevChar.id);
         });
-        setTimeout(() => {
-          setMessage(null);
-        }, 2000);
+
+        setMessage(`Great! You Found ${character.name}`);
       } else {
         setMessage(`Nah bruh, ${character.name} is not there.`);
       }
@@ -81,6 +83,7 @@ const Game = () => {
   };
 
   const handleClick = (event) => {
+    // Retrieving the pixel position at click.
     const rect = event.currentTarget.getBoundingClientRect();
     const x = event.clientX - rect.left;
     const y = event.clientY - rect.top;
@@ -89,7 +92,7 @@ const Game = () => {
 
     setClickInfo({ x, y, height, width });
 
-    // Displaying targeting circular box and dropdown box
+    // Displaying targeting circular box and dropdown box at the given pixel position
     if (targetingBoxRef.current) {
       targetingBoxRef.current.style.left = `${x}px`;
       targetingBoxRef.current.style.top = `${y}px`;
@@ -127,7 +130,7 @@ const Game = () => {
               <img
                 key={checkbox.left + checkbox.top}
                 src={checkmark}
-                className={`absolute rounded-full border-3 border-green-700 -translate-1/2 bg-gray-50`}
+                className={`absolute -translate-1/2 rounded-full border-3 border-green-700 bg-gray-50`}
                 style={{
                   left: `${parseInt(checkbox.left)}px`,
                   top: `${parseInt(checkbox.top)}px`,
@@ -160,7 +163,14 @@ const Game = () => {
             </li>
           ))}
         </ul>
+
+        <div className="fixed top-24 left-4 rounded-2xl bg-gray-100 p-2 text-2xl font-bold text-red-800">
+          Timer: {score / 100}s
+        </div>
       </div>
+      {charactersLeft.length == 0 && message == null && (
+        <UserForm score={score} />
+      )}
     </>
   );
 };
