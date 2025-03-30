@@ -56,7 +56,7 @@ const Game = () => {
 
     try {
       const { x, y } = normalizeAxes(clickInfo);
-      const baseUrl = import.meta.env.VITE_API_BASE_URL;
+      const baseUrl = import.meta.env.VITE_API_BASE_URL || "http://localhost:3000";
       const response = await fetch(
         `${baseUrl}/api/characters/${character.id}?x=${x}&y=${y}`,
         {

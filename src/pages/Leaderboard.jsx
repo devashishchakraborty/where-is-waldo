@@ -7,7 +7,7 @@ const Leaderboard = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const baseUrl = import.meta.env.VITE_API_BASE_URL;
+        const baseUrl = import.meta.env.VITE_API_BASE_URL || "http://localhost:3000";
         const response = await fetch(`${baseUrl}/api/users`, {
           method: "GET",
           headers: {
