@@ -1,12 +1,47 @@
-# React + Vite
+# Where's Waldo
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## 📌 About the Project
+Where's Waldo is a fun image-finding game where players test their observation skills by spotting Waldo in a crowded scene. This project was built following TheOdinProject. This repo hosts the frontend part of the project.
 
-Currently, two official plugins are available:
+## 🎮 How to Play
+1. The game presents an image filled with characters and objects.
+2. Your task is to find Waldo, Odlaw and Wizard and click on them.
+3. The game will verify if you clicked the correct location.
+4. A timer tracks how fast you find them—try to beat everyone and put your name on the leaderboard!
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🛠 Tech Stack
+- **Frontend:** React, Tailwind CSS
+- **Backend:** Express.js, Node.js
+- **Database:** PostgreSQL with Prisma ORM
+- **State Management:** React Hooks
 
-## Expanding the ESLint configuration
+## 🚀 Features
+- Interactive image where users can click to find Waldo
+- Timer to measure player performance
+- Leaderboard to track the fastest players
+- Responsive design for mobile and desktop
 
-If you are developing a production application, we recommend using TypeScript and enable type-aware lint rules. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## 📂 Project Setup
+### Clone the Repository
+```sh
+git clone https://github.com/devashishchakraborty/where-is-waldo.git
+cd where-is-waldo
+```
+
+### Install Dependencies
+#### Frontend:
+```sh
+npm install
+npm run dev
+```
+#### Backend:
+Follow [here](https://github.com/devashishchakraborty/waldo-backend) to setup your Backend!
+
+## 🖼 Screenshots
+![image](https://github.com/user-attachments/assets/7e756107-8b25-4945-9e19-dd5d16717072)
+
+## 📝 Future Improvements
+- Add multiple levels with different images
+- Implement user authentication for personalized leaderboards
+- Improve UI with animations and effects
+
