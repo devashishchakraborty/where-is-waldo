@@ -1,12 +1,15 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Loading from "./Loading";
 
 const UserForm = ({ score }) => {
   const [username, setUsername] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const navigate = useNavigate();
 
   const handleUserSubmit = async (e) => {
     e.preventDefault();
+    setIsSubmitting(true);
 
     try {
       // const baseUrl = import.meta.env.VITE_API_BASE_URL;
@@ -21,11 +24,12 @@ const UserForm = ({ score }) => {
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
-      
+
       navigate("/leaderboard");
     } catch (err) {
       console.error("Error uploading data:", err);
     }
+    setIsSubmitting(false);
   };
 
   return (
@@ -49,9 +53,9 @@ const UserForm = ({ score }) => {
           />
           <button
             type="submit"
-            className="cursor-pointer rounded-md bg-red-800 py-2 text-white transition duration-200 hover:bg-red-700"
+            className="cursor-pointer rounded-md bg-red-800 py-2 text-white transition duration-200 hover:bg-red-700 flex justify-center items-center"
           >
-            Submit
+            {isSubmitting ? <Loading /> : "Submit"}
           </button>
         </form>
       </div>

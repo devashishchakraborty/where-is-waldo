@@ -1,6 +1,6 @@
-import mainImage from "../assets/main-image.jpg";
 import { useEffect, useRef, useState } from "react";
 import { normalizeAxes } from "../utils";
+import mainImage from "../assets/main-image.jpg";
 import checkmark from "../assets/checkmark.svg";
 import UserForm from "../components/UserForm";
 import Header from "../components/Header";
@@ -127,7 +127,7 @@ const Game = () => {
 
   return (
     <>
-      <Header charactersLeft={charactersLeft} />
+      <Header charactersLeft={charactersLeft} score={score} />
       <main>
         <div className="imageContainer relative">
           <img
@@ -178,9 +178,7 @@ const Game = () => {
             ))}
           </ul>
 
-          <div className="fixed top-24 left-4 rounded-2xl bg-gray-100 p-2 text-2xl font-bold text-red-800">
-            Timer: {score / 100}s
-          </div>
+          
         </div>
         {charactersLeft.length == 0 && message == null && (
           <UserForm score={score} />
